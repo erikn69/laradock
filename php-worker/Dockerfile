@@ -75,6 +75,9 @@ ARG INSTALL_GNUPG=false
 RUN set -eux; if [ ${INSTALL_GNUPG} = true ]; then \
   apk add --no-cache --no-progress --virtual BUILD_DEPS_PHP_GNUPG gpgme-dev; \
   apk add --no-cache --no-progress gpgme; \
+  pear clear-cache; \
+  pear update-channels; \
+  pear upgrade; \
   pecl install gnupg; \
   docker-php-ext-enable gnupg; \
   fi
