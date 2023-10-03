@@ -19,6 +19,11 @@ RUN if [ ${CHANGE_SOURCE} = true ]; then \
   sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/' /etc/apk/repositories \
   ;fi
 
+RUN if [ ${LARADOCK_PHP_VERSION} = "7.0" ]; then \
+    rm /etc/ssl/certs/2e5ac55d.0 && \
+    rm /etc/ssl/certs/ca-cert-DST_Root_CA_X3.pem \
+  ;fi
+
 RUN apk --update add wget \
   curl \
   git \
