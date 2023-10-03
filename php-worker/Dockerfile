@@ -117,7 +117,7 @@ ENV IMAGEMAGICK_VERSION ${IMAGEMAGICK_VERSION}
 RUN set -eux; \
   if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
   apk add --update --no-cache imagemagick-dev imagemagick; \
-  if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
+  if [ ${LARADOCK_PHP_VERSION} > "8.2" ] || [ ${LARADOCK_PHP_VERSION} = "7.0" ]; then \
   cd /tmp && \
   if [ ${IMAGEMAGICK_VERSION} = "latest" ]; then \
   git clone https://github.com/Imagick/imagick; \
