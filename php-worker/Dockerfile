@@ -131,6 +131,7 @@ RUN set -eux; \
   make install && \
   rm -r /tmp/imagick; \
   else \
+  pecl channel-update pecl.php.net; \
   pecl install imagick; \
   fi && \
   docker-php-ext-enable imagick; \
