@@ -117,7 +117,7 @@ ENV IMAGEMAGICK_VERSION ${IMAGEMAGICK_VERSION}
 RUN set -eux; \
   if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
   apk add --update --no-cache imagemagick-dev imagemagick; \
-  if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
+  if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" &&  $(php -r "echo PHP_MINOR_VERSION;") >= "3" ]; then \
   cd /tmp && \
   if [ ${IMAGEMAGICK_VERSION} = "latest" ]; then \
   git clone https://github.com/Imagick/imagick; \
@@ -131,7 +131,11 @@ RUN set -eux; \
   make install && \
   rm -r /tmp/imagick; \
   else \
+  if [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "70000" ]; then \
+  pecl install imagick-3.5.1; \
+  else \
   pecl install imagick; \
+  fi \
   fi && \
   docker-php-ext-enable imagick; \
   php -m | grep -q 'imagick'; \
