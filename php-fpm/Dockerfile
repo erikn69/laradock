@@ -624,7 +624,7 @@ ENV OCI_VERSION=${ORACLE_INSTANT_CLIENT_MAJOR}
 
 RUN if [ ${INSTALL_OCI8} = true ]; then \
     # Install wget
-    apt-get install --no-install-recommends -yqq wget \
+    apt-get update && apt-get install --no-install-recommends -yqq wget \
     # Install Oracle Instantclient
     && mkdir /opt/oracle \
         && cd /opt/oracle \
@@ -645,7 +645,7 @@ RUN if [ ${INSTALL_OCI8} = true ]; then \
       echo 'instantclient,/opt/oracle/instantclient_${ORACLE_INSTANT_CLIENT_VERSION}/' | pecl install oci8-2.0.12; \
     elif [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ]; then \
       echo 'instantclient,/opt/oracle/instantclient_${ORACLE_INSTANT_CLIENT_VERSION}/' | pecl install oci8-2.2.0; \
-    elif [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ] && [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
+    elif [ $(php -r "echo PHP_MAJOR_VERSION . PHP_MINOR_VERSION;") = "80" ]; then \
       echo "instantclient,/opt/oracle/instantclient_${ORACLE_INSTANT_CLIENT_VERSION}/" | pecl install oci8-3.0.1; \
     elif [ $(php -r "echo PHP_MAJOR_VERSION . PHP_MINOR_VERSION;") = "81" ]; then \
         echo "instantclient,/opt/oracle/instantclient_${ORACLE_INSTANT_CLIENT_VERSION}/" | pecl install oci8-3.2.1; \

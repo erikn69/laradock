@@ -22,8 +22,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php_version: [ "7.1", "7.2", "7.3", "7.4", "8.0", "8.1", "8.2", "8.3"  ]
-        service: [ php-fpm, php-worker, workspace ]
+        php_version: [ "8.2", "8.3" ]
+        service: [ php-fpm ]
     steps:
       - uses: actions/checkout@v4
       - name: Build the Docker image
@@ -41,7 +41,6 @@ jobs:
           sed -i -- 's/PHALCON=true/PHALCON=false/g' .env
           sed -i -- 's/RDKAFKA=true/RDKAFKA=false/g' .env
           sed -i -- 's/MAILPARSE=true/MAILPARSE=false/g' .env
-          sed -i -- 's/OCI8=true/OCI8=false/g' .env
           sed -i -- 's/V8JS=true/V8JS=false/g' .env
           sed -i -- 's/AUDIOWAVEFORM=true/AUDIOWAVEFORM=false/g' .env
           sed -i -- 's/SSDB=true/SSDB=false/g' .env
@@ -63,6 +62,7 @@ jobs:
         service: [ 'nginx', 'redis', 'mysql', 'mariadb', 'percona', 'minio', 'mongo' ]
     steps:
       - uses: actions/checkout@v4
+
       - name: Build the Docker image
         run: |
           cp .env.example .env
